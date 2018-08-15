@@ -26,11 +26,13 @@
           </div>
         </div>
       </div>
-      <ul class="sidebar-menu scrollable pos-r">
+      <ul class="sidebar-menu scrollable pos-r" v-if="showSidebar">
+
+        <!-- DASHBOARD LINK ###### -->
         <router-link
           tag="li"
           class="nav-item mT-30"
-          :to="{ name: 'dashboard', params: { versionId: 4711 }}"
+          :to="{ name: 'dashboard', params: { versionId: $route.params.versionId }}"
           exact-active-class="active"
         >
           <a class="sidebar-link">
@@ -40,8 +42,10 @@
             <span class="title">Dashboard</span>
           </a>
         </router-link>
-        <li :class="['nav-item', 'dropdown', openedMenu === 'localTax' ? 'open' : '']">
-          <a class="sidebar-link dropdown-toggle link" @click="changeOpenedMenu('localTax')">
+
+        <!-- LOCALGAAP LINK ###### -->
+        <li :class="['nav-item', 'dropdown', 'open']">
+          <a class="sidebar-link dropdown-toggle link">
             <span class="icon-holder">
               <font-awesome-icon icon="balance-scale"></font-awesome-icon>
             </span>
@@ -51,28 +55,26 @@
             </span>
           </a>
           <ul class="dropdown-menu">
-            <router-link tag="li" :to="{ name: 'localTaxDifferences', params: { versionId: 4711 }}" exact-active-class="active">
+            <router-link tag="li" :to="{ name: 'localgaapDifferences', params: { versionId: $route.params.versionId }}" exact-active-class="active">
               <a class='sidebar-link'>Veränderung StAPs</a>
             </router-link>
-            <router-link tag="li" to="/localgaap/differences" exact-active-class="active">
+            <router-link tag="li" :to="{ name: 'localgaapDifferences', params: { versionId: $route.params.versionId }}" exact-active-class="active">
               <a class='sidebar-link'>Latente Steuer</a>
             </router-link>
           </ul>
         </li>
+
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { showSidebar } from "../helper";
 
 export default {
   computed: {
-    ...mapState('sidebar', ['openedMenu'])
-  },
-  methods: {
-    ...mapActions('sidebar', ['changeOpenedMenu'])
+    showSidebar() { return showSidebar(this.$route.name) }
   }
 };
 </script>

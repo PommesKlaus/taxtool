@@ -8,25 +8,32 @@
           </a>
         </li>
       </ul>
-      <ul class="nav-left">
+      <ul class="nav-left" v-if="showSidebar">
         <li>
           <a class="no-after peers fxw-nw ai-c lh-1">
             <div class="peer">
-              DE01 - Bayer AG
+              {{ company.shortname }}
             </div>
           </a>
         </li>
         <li>
           <a class="no-after peers fxw-nw ai-c lh-1">
             <div class="peer">
-              2016
+              {{ company.name }}
             </div>
           </a>
         </li>
         <li>
           <a class="no-after peers fxw-nw ai-c lh-1">
             <div class="peer">
-              Steuererklärung
+              {{ version.reportingDate }}
+            </div>
+          </a>
+        </li>
+        <li>
+          <a class="no-after peers fxw-nw ai-c lh-1">
+            <div class="peer">
+              {{ version.shortname }}
             </div>
           </a>
         </li>
@@ -64,7 +71,13 @@
 </template>
 
 <script>
-export default {
+import { mapActions, mapState } from "vuex";
+import { showSidebar } from "../helper";
 
+export default {
+  computed: {
+    showSidebar() { return showSidebar(this.$route.name) },
+    ...mapState('localgaap', ['version', 'company']),
+  },
 }
 </script>
