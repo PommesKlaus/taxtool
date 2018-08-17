@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Dashboard from './views/Dashboard.vue'
 import VersionSelect from './views/VersionSelect.vue'
+import VersionNew from './views/VersionNew.vue'
 
 Vue.use(Router)
 
@@ -11,6 +12,11 @@ export default new Router({
       path: '/',
       name: 'versionSelect',
       component: VersionSelect,
+    },
+    {
+      path: '/new-version',
+      name: 'versionNew',
+      component: VersionNew,
     },
     {
       path: '/:versionId',

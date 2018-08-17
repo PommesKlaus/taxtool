@@ -49,5 +49,5 @@ export const aggregateData = (data, groupField, sumByFields) => {
   return { groupedData, totals }
 }
 
-
-export const showSidebar = (r) => r !== "versionSelect"
+const excludeSidebarInViews = ["versionSelect", "versionNew"]
+export const showSidebar = (r) => !excludeSidebarInViews.includes(r)
