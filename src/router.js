@@ -31,6 +31,12 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/Localgaap/Differences.vue'),
       meta: { navCategory: 'localgaap' },
-    }
+    },
+    {
+      path: '/:versionId/localgaap/differences/:oar',
+      name: 'localgaapDifferenceDetail',
+      component: () => import(/* webpackChunkName: "about" */ './views/Localgaap/DifferenceDetail.vue'),
+      meta: { navCategory: 'localgaap' },
+    },
   ]
 })

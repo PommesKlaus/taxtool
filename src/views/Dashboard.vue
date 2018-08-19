@@ -41,12 +41,12 @@ export default {
   methods: {
     ...mapActions('localgaap', ['fetchData'])
   },
-  created () {
-    this.fetchData(this.$route.params.versionId)
-  },
   watch: {
-    '$route' (to, from) {
-      this.fetchData(this.$route.params.versionId)
+    $route: {
+      immediate: true,
+      handler () {
+        this.fetchData(this.$route.params.versionId)
+      }
     }
   }
 }

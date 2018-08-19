@@ -49,5 +49,21 @@ export const aggregateData = (data, groupField, sumByFields) => {
   return { groupedData, totals }
 }
 
+
 const excludeSidebarInViews = ["versionSelect", "versionNew"]
 export const showSidebar = (r) => !excludeSidebarInViews.includes(r)
+
+
+export const mutationParametersFromObject = (obj) => {
+  let exportString = ''
+  _.forOwn(obj, (v, k) => {
+    if (v !== null) {
+      if (isNaN(v) || v === "") {
+        exportString += k + ': "' + v + '", '
+      } else {
+        exportString += k + ': ' + v * 1 + ', '
+      }
+    }
+  })
+  return exportString
+}

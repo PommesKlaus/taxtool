@@ -9,9 +9,9 @@
             <thead>
               <tr>
                 <th>Bezeichnung</th>
-                <th class="col-width">Delta lfd. Jahr<br /><small>{{ getDisplayVersions.current }}</small></th>
-                <th class="col-width">Delta Vorjahr<br /><small>{{ getDisplayVersions.matching }}</small></th>
-                <th rowspan="2" class="col-width">darin enthaltenes Matching</th>
+                <th class="col-width">Delta <abbr :title="getDisplayVersions.current.shortname">lfd. Jahr</abbr><br /><small>{{ getDisplayVersions.current.reportingDate }}</small></th>
+                <th class="col-width">Delta <abbr :title="getDisplayVersions.matching.shortname">Vorjahr</abbr><br /><small>{{ getDisplayVersions.matching.reportingDate }}</small></th>
+                <th rowspan="2" class="col-width">darin enthaltenes <abbr :title="getDisplayVersions.matching.shortname">Matching</abbr></th>
                 <th class="col-width">Veränderung neutral</th>
                 <th class="col-width">Veränderung erfolgswirksam</th>
               </tr>
@@ -25,10 +25,12 @@
                 <th>{{ group.sums.cyNeutralMovement | numberFormat }}</th>
                 <th>{{ group.sums.cyMovement | numberFormat }}</th>
               </tr>
-              <tr
+              <router-link
+                tag="tr"
                 v-for="d in group.differences"
                 :key="d.oar"
-                class="row-link"
+                class="link"
+                :to="{name: 'localgaapDifferenceDetail', params: {versionId: $route.params.versionId, oar: d.oar}}"
               >
                 <td>{{ d.name }}</td>
                 <td>{{ d.cyDifference | numberFormat }}</td>
@@ -36,7 +38,7 @@
                 <td>{{ d.tuMovement | numberFormat }}</td>
                 <td>{{ d.cyNeutralMovement | numberFormat }}</td>
                 <td>{{ d.cyMovement | numberFormat }}</td>
-              </tr>
+              </router-link>
             </tbody>
             <tfoot>
               <tr>
@@ -70,12 +72,12 @@ export default {
   methods: {
     ...mapActions('localgaap', ['fetchData'])
   },
-  created () {
-    this.fetchData(this.$route.params.versionId)
-  },
   watch: {
-    '$route' (to, from) {
-      this.fetchData(this.$route.params.versionId)
+    $route: {
+      immediate: true,
+      handler () {
+        this.fetchData(this.$route.params.versionId)
+      }
     }
   }
 }
