@@ -187,10 +187,10 @@ const actions = {
           }
       }`
     }
-    console.log(mutation)
-    axios.post(this.$baseApiUrl, mutation).then(res => {
-      commit("updateDifferenceCalculation", res.data.data.calculation);
-    });
+    axios.post(Vue.prototype.$baseApiUrl, mutation).then(res => {
+      commit("updateDifferenceCalculation", res.data.data.createTransaction.calculation);
+    })
+    .catch(err => console.log(err));
   }
 };
 

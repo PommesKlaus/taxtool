@@ -8,7 +8,7 @@
     </div>
 
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-      <form @submit.prevent="updateDifferences({versionId: $route.params.versionId, difference})">
+      <form @submit.prevent="updateDifferences({versionId: $route.params.versionId, difference: updateDifference})">
 
         <div class="table-responsive-md">
           <table class="table table-sm">
@@ -37,7 +37,12 @@
                 <td class="text-right">{{ difference.tuLocal | numberFormat }}</td>
                 <td></td>
                 <td class="text-right">
-                  <input type="text" v-model="difference.cyLocal" class="form-control form-control-sm text-right">
+                  <input
+                    type="text"
+                    :value="difference.cyLocal"
+                    @input="(e) => this.updateDifference.cyLocal = e.target.value"
+                    class="form-control form-control-sm text-right"
+                  >
                   <!-- {{ difference.cyLocal | numberFormat }} -->
                 </td>
               </tr>
@@ -58,7 +63,12 @@
                 <td class="text-right">{{ difference.tuDifference | numberFormat }}</td>
                 <th></th>
                 <td class="text-right">
-                  <input type="text" v-model="difference.cyDifference" class="form-control form-control-sm text-right">
+                  <input
+                    type="text"
+                    :value="difference.cyDifference"
+                    @input="(e) => this.updateDifference.cyDifference = e.target.value"
+                    class="form-control form-control-sm text-right"
+                  >
                   <!-- {{ difference.cyDifference | numberFormat }} -->
                 </td>
               </tr>
@@ -82,7 +92,12 @@
                 <td class="text-right">{{ difference.tuNeutralMovement | numberFormat }}</td>
                 <td></td>
                 <td class="text-right">
-                  <input type="text" v-model="difference.cyNeutralMovement" class="form-control form-control-sm text-right">
+                  <input
+                    type="text"
+                    :value="difference.cyNeutralMovement"
+                    @input="(e) => this.updateDifference.cyNeutralMovement = e.target.value"
+                    class="form-control form-control-sm text-right"
+                  >
                   <!-- {{ difference.cyNeutralMovement | numberFormat }} -->
                 </td>
                 <td></td>
@@ -116,7 +131,12 @@
                 <td class="text-right">{{ difference.tuPermanentQuota | numberFormat }}</td>
                 <td></td>
                 <td class="text-right">
-                  <input type="text" v-model="difference.cyPermanentQuota" class="form-control form-control-sm text-right">
+                  <input
+                    type="text"
+                    :value="difference.cyPermanentQuota"
+                    @input="(e) => this.updateDifference.cyPermanentQuota = e.target.value"
+                    class="form-control form-control-sm text-right"
+                  >
                   <!-- {{ difference.cyPermanentQuota | numberFormat }} -->
                 </td>
               </tr>
@@ -141,12 +161,9 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import _ from 'lodash'
 
-export default {
-  name: "differenceDetail",
-  data () {
-    return {
-      difference: {
+const dummyDifference = {
         category: "",
         cyDeferredTax: 0,
         cyDifference: 0,
@@ -173,10 +190,32 @@ export default {
         tuPermanentQuota: 0,
         tuTax: 0
       }
+
+export default {
+  name: "differenceDetail",
+  data () {
+    return {
+      updateDifference: {
+        category: "",
+        name: "",
+        oar: "",
+        cyId: 0,
+        cyLocal: 0,
+        cyDifference: 0,
+        cyNeutralMovement: 0,
+        cyPermanentQuota: 0,
+      }
     }
   },
   computed: {
-    ...mapGetters('localgaap', ['getDifferenceByOar', 'getDisplayVersions'])
+    ...mapGetters('localgaap', ['getDifferenceByOar', 'getDisplayVersions']),
+    difference() {
+      if ("oar" in this.$route.params) {
+        return this.getDifferenceByOar(this.$route.params.oar)
+      } else {
+        return dummyDifference
+      }
+    }
   },
   methods: {
     ...mapActions('localgaap', ['fetchData', 'updateDifferences'])
@@ -186,7 +225,11 @@ export default {
       immediate: true,
       handler () {
         this.fetchData(this.$route.params.versionId)
-        .then(() => this.difference = Object.assign({}, this.getDifferenceByOar(this.$route.params.oar)))
+        .then(() => {
+          if ("oar" in this.$route.params) {
+            _.assign(this.updateDifference, _.pick(this.getDifferenceByOar(this.$route.params.oar), _.keys(this.updateDifference)));
+          }
+        })
       }
     }
   }

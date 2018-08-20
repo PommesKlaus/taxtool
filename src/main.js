@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import axios from 'axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCompass, faAngleRight, faBalanceScale, faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
