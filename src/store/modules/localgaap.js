@@ -2,6 +2,7 @@ import axios from "axios";
 import _ from 'lodash'
 import Vue from "../../../node_modules/vue";
 import { aggregateData } from "../../helper";
+import router from "@/router"
 
 const state = {
   version: {
@@ -187,9 +188,12 @@ const actions = {
           }
       }`
     }
-    axios.post(Vue.prototype.$baseApiUrl, mutation).then(res => {
+    axios.post(Vue.prototype.$baseApiUrl, mutation)
+    .then(res => {
       commit("updateDifferenceCalculation", res.data.data.createTransaction.calculation);
+      return res.data.data.createTransaction.calculation.oar
     })
+    .then(oar => router.push({name: 'localgaapDifferenceDetail', params: {versionId, oar}}))
     .catch(err => console.log(err));
   }
 };

@@ -5,6 +5,7 @@
     <div class="col-md-12">
       <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <h6 class="c-grey-900 mB-20">HGB-Bilanz/Steuerbilanz</h6>
+        <router-link tag="button" :to="{name: 'localgaapDifferenceNew', params: {versionId: $route.params.versionId}}" class="btn btn-outline-primary">Neu</router-link>
         <table class="table table-striped table-bordered data-table" cellspacing="0" width="100%">
             <thead>
               <tr>
@@ -97,7 +98,7 @@ th {
 .data-table > tbody > tr > th:nth-child(n+2), .data-table > tbody > tr > td:nth-child(n+2), .data-table > tfoot > tr > th:nth-child(n+2) {
   text-align: right;
   font-family: 'Roboto Mono', monospace;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 .data-table tbody::before, .data-table tfoot::before {

@@ -1,7 +1,27 @@
 <template>
   <div>
     <h4 class="c-grey-900 mT-10 mB-30">Sachverhalt anzeigen</h4>
-    <div class="bgc-white bd bdrs-3 p-20 mB-20">
+    <div class="bgc-white bd bdrs-3 p-20 mB-20" v-if="createMode">
+      <label for="inputCategory">Kategorie</label>
+      <input
+        type="text"
+        id="inputCategory"
+        :value="difference.category"
+        @input="(e) => this.updateDifference.category = e.target.value"
+        class="form-control form-control-lg"
+        required
+      >
+      <label for="inputName" class="mT-20">Transaktionsbezeichnung</label>
+      <input
+        type="text"
+        name="inputName"
+        :value="difference.name"
+        @input="(e) => this.updateDifference.name = e.target.value"
+        class="form-control form-control-lg"
+        required
+      >
+    </div>
+    <div class="bgc-white bd bdrs-3 p-20 mB-20" v-else>
       <h6>{{ difference.category }}</h6>
       <h5>{{ difference.name }}</h5>
       <small class="float-right text-muted c-grey-500">Ref: {{ difference.oar }}</small>
@@ -215,7 +235,8 @@ export default {
       } else {
         return dummyDifference
       }
-    }
+    },
+    createMode() { return !("oar" in this.$route.params)}
   },
   methods: {
     ...mapActions('localgaap', ['fetchData', 'updateDifferences'])

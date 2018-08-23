@@ -38,5 +38,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Localgaap/DifferenceDetail.vue'),
       meta: { navCategory: 'localgaap' },
     },
+    {
+      path: '/:versionId/localgaap/new-difference',
+      name: 'localgaapDifferenceNew',
+      component: () => import(/* webpackChunkName: "about" */ './views/Localgaap/DifferenceDetail.vue'),
+      meta: { navCategory: 'localgaap' },
+    },
   ]
 })
