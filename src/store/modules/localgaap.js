@@ -177,7 +177,7 @@ const actions = {
         : mutationString + `id: ${difference.cyId}`;
 
     const mutation = { query: `mutation {
-        createTransaction(${mutationString}) {
+        mutateTransaction(${mutationString}) {
             calculation {
               ${calculationFields}
             }
@@ -190,8 +190,8 @@ const actions = {
     }
     axios.post(Vue.prototype.$baseApiUrl, mutation)
     .then(res => {
-      commit("updateDifferenceCalculation", res.data.data.createTransaction.calculation);
-      return res.data.data.createTransaction.calculation.oar
+      commit("updateDifferenceCalculation", res.data.data.mutateTransaction.calculation);
+      return res.data.data.mutateTransaction.calculation.oar
     })
     .then(oar => router.push({name: 'localgaapDifferenceDetail', params: {versionId, oar}}))
     .catch(err => console.log(err));
