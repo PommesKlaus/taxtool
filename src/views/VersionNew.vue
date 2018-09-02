@@ -49,7 +49,7 @@
           <label for="inputCompany" class="col-sm-3 col-form-label">Version Vergleich</label>
           <div class="col-sm-8">
             <select class="form-control" v-model="newVersion.compareVersion">
-              <option :value="null">Keine</option>
+              <option :value="-1">Keine</option>
               <option v-for="version in versions" :key="version.id" :value="version.id">{{ version.reportingDate }} {{ version.shortname }}</option>
             </select>
           </div>
@@ -60,7 +60,7 @@
           <label for="inputCompany" class="col-sm-3 col-form-label">Version Matching</label>
           <div class="col-sm-8">
             <select class="form-control" v-model="newVersion.matchingVersion">
-              <option :value="null">Keine</option>
+              <option :value="-1">Keine</option>
               <option v-for="version in versions" :key="version.id" :value="version.id">{{ version.reportingDate }} {{ version.shortname }}</option>
             </select>
           </div>
@@ -71,7 +71,7 @@
           <label for="inputCompany" class="col-sm-3 col-form-label">Werte kopieren aus</label>
           <div class="col-sm-8">
             <select class="form-control" v-model="newVersion.copyVersion">
-              <option :value="null">Keine</option>
+              <option :value="-1">Keine</option>
               <option v-for="version in versions" :key="version.id" :value="version.id">{{ version.reportingDate }} {{ version.shortname }}</option>
             </select>
           </div>
@@ -150,7 +150,7 @@ export default {
         }`
       }
       axios.post(this.$baseApiUrl, mutation).then(res => {
-        this.$router.push({name: 'dashboard', params: {versionId: res.data.data.createVersion.version.id}});
+        this.$router.push({name: 'dashboard', params: {versionId: res.data.data.mutateVersion.version.id}});
       });
     }
   },
