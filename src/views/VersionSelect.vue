@@ -89,11 +89,11 @@ export default {
   },
   mounted () {
     const query = {
-      query: '{ allCompanies { shortname, name } }'
+      query: '{ companies { shortname, name } }'
     }
     axios.post(this.$baseApiUrl, query)
     .then(res => {
-      this.companies = res.data.data.allCompanies
+      this.companies = res.data.data.companies
     })
   }
 };

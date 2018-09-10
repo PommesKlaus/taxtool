@@ -124,7 +124,7 @@ export default {
       if (this.newVersion.reportingDate && this.newVersion.company !== "") {
         const year = new Date(this.newVersion.reportingDate).getFullYear() - 1
         const query = {
-          query: `{ allVersionsForCompanyAndYearGt(companyId:"${this.newVersion.company}", year:${year}) {
+          query: `{ versions(company_Exact:"${this.newVersion.company}", reportingDate_Year_Gt:${year}) {
             shortname,
             id,
             reportingDate
@@ -132,7 +132,7 @@ export default {
           }`
         };
         axios.post(this.$baseApiUrl, query).then(res => {
-          this.versions = res.data.data.allVersionsForCompanyAndYearGt;
+          this.versions = res.data.data.versions;
         });
       }
     },
@@ -157,10 +157,10 @@ export default {
   mounted() {
     this.newVersion.reportingDate = new Date().getFullYear() + "-12-31"
     const query = {
-      query: "{ allCompanies { shortname, name } }"
+      query: "{ companies { shortname, name } }"
     };
     axios.post(this.$baseApiUrl, query).then(res => {
-      this.companies = res.data.data.allCompanies;
+      this.companies = res.data.data.companies;
     });
   },
   watch: {
